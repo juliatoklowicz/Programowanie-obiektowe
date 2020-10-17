@@ -12,141 +12,150 @@ struct Data
 
 class RadaNadzorcza
 {
-    public:
+private:
     int liczba_czlonkow;
     int srednia_uchwal;
     float budzet;
     Data data;
     int liczba_kobiet;
-
-    int liczba_powolanych(RadaNadzorcza rada)
+public:
+    void wyzeruj()
+    {
+        liczba_czlonkow = 0;
+        srednia_uchwal = 0;
+        budzet = 0;
+        data.dzien = 0;
+        data.rok = 0;
+        data.miesiac = 0;
+        liczba_kobiet = 0;
+    }
+    void liczba_powolanych()
     {
         int l1;
         cout << "Podaj liczbe czlonkow powolanych przez walne zgromadzenie: ";
         cin >> l1;
-        rada.liczba_czlonkow = rada.liczba_czlonkow + l1;
-        return rada.liczba_czlonkow;
+        liczba_czlonkow = liczba_czlonkow + l1;
     }
 
-    int liczba_odwolanych(RadaNadzorcza rada)
+    void liczba_odwolanych()
     {
         int l2;
         cout << "Podaj liczbe czlonkow odwolanych przez walne zgromadzenie: ";
         cin >> l2;
-        while (l2 > rada.liczba_czlonkow)
+        while (l2 > liczba_czlonkow)
         {
             cout << "Liczba czlonkow nie moze spasc ponizej 0!" << endl;
             cout << "Podaj prawidlowa liczbe czlonkow odwolanych przez walne zgromadzenie: ";
             cin >> l2;
         }
-        rada.liczba_czlonkow = rada.liczba_czlonkow - l2;
-        return rada.liczba_czlonkow;
+        liczba_czlonkow = liczba_czlonkow - l2;
     }
 
-    void aktualna_liczba(RadaNadzorcza rada)
+    void aktualna_liczba()
     {
-        cout << "Aktualna liczba czlonkow rady nadzorczej wynosi: " << rada.liczba_czlonkow << endl;
+        cout << "Aktualna liczba czlonkow rady nadzorczej wynosi: " << liczba_czlonkow << endl;
     }
 
-    int uchwaly_poprzedni_rok(RadaNadzorcza rada)
+    void uchwaly_poprzedni_rok()
     {
         int x,y;
+        int suma = 0;
         cout << "Podaj liczbe uchwal wydanych w poprzednim roku: ";
         cin >> x;
-        cout << "Podaj liczbe uchwal wydanych w biezacym roku: ";
-        cin >> y;
-        return (x+y)/2;
+        int tab[10] = {60,30,18,20,38,38,19,20,28,x};
+        for (int i = 0; i < 10; i++)
+        {
+            suma = suma + tab[i];
+        }
+        y = suma/10;
+        srednia_uchwal = y;
     }
 
-    void aktualna_srednia(RadaNadzorcza rada)
+    void aktualna_srednia()
     {
-        cout << "Aktualna srednia liczba wydanych uchwal: " << rada.srednia_uchwal << endl;
+        cout << "Aktualna srednia liczba wydanych uchwal: " << srednia_uchwal << endl;
     }
 
-    float wplywy(RadaNadzorcza rada)
+    void wplywy()
     {
         float wplyw;
         cout << "Podaj wartosc wplywu do budzetu: ";
         cin >> wplyw;
-        rada.budzet = rada.budzet + wplyw;
-        return rada.budzet;
+        budzet = budzet + wplyw;
     }
 
-    float wydatki(RadaNadzorcza rada)
+    void wydatki()
     {
         float wydatek;
         cout << "Podaj wysokosc wydatkow: ";
         cin >> wydatek;
-        rada.budzet = rada.budzet - wydatek;
-        return rada.budzet;
+        budzet = budzet - wydatek;
     }
 
-    void aktualny_budzet(RadaNadzorcza rada)
+    void aktualny_budzet()
     {
-        cout << "Aktualny budzet: " << rada.budzet << endl;
+        cout << "Aktualny budzet: " << budzet << endl;
     }
 
-    Data data_planowana(RadaNadzorcza rada)
+    void data_planowana()
     {
         time_t t = time(0);
         tm * now = localtime(&t);
-        if(rada.data.rok > now->tm_year + 1900)
+        if(data.rok > now->tm_year + 1900)
         {
             cout << "Nie mozna ustawic nowej daty, poniewaz aktualne planowane posiedzenie jeszcze sie nie odbylo." << endl;
         }
-        else if (rada.data.rok == now->tm_year + 1900 && rada.data.miesiac > now->tm_mon + 1)
+        else if (data.rok == now->tm_year + 1900 && data.miesiac > now->tm_mon + 1)
         {
             cout << "Nie mozna ustawic nowej daty, poniewaz aktualne planowane posiedzenie jeszcze sie nie odbylo." << endl;
         }
-        else if(rada.data.rok == now->tm_year + 1900 && rada.data.miesiac == now->tm_mon + 1 && rada.data.dzien > now->tm_mday)
+        else if(data.rok == now->tm_year + 1900 && data.miesiac == now->tm_mon + 1 && data.dzien > now->tm_mday)
         {
             cout << "Nie mozna ustawic nowej daty, poniewaz aktualne planowane posiedzenie jeszcze sie nie odbylo." << endl;
         }
         else
         {
             cout << "Podaj rok planowanego zgromadzenia rady: ";
-            cin >> rada.data.rok;
+            cin >> data.rok;
             cout << "Podaj miesiac planowanego zgromadzenia rady: ";
-            cin >> rada.data.miesiac;
+            cin >> data.miesiac;
             cout << "Podaj dzien planowanego posiedzenia rady: ";
-            cin >> rada.data.dzien;
-            while ((rada.data.rok < now->tm_year + 1900) || (rada.data.rok == now->tm_year + 1900  && rada.data.miesiac < now->tm_mon + 1) || (rada.data.rok == now->tm_year + 1900 && rada.data.miesiac == now->tm_mon + 1 && rada.data.dzien < now->tm_mday))
+            cin >> data.dzien;
+            while ((data.rok < now->tm_year + 1900) || (data.rok == now->tm_year + 1900  && data.miesiac < now->tm_mon + 1) || (data.rok == now->tm_year + 1900 && data.miesiac == now->tm_mon + 1 && data.dzien < now->tm_mday))
             {
                 cout << "Podales niepoprawna date!" << endl;
                 cout << "Podaj rok planowanego zgromadzenia rady: ";
-                cin >> rada.data.rok;
+                cin >> data.rok;
                 cout << "Podaj miesiac planowanego zgromadzenia rady: ";
-                cin >> rada.data.miesiac;
+                cin >> data.miesiac;
                 cout << "Podaj dzien planowanego posiedzenia rady: ";
-                cin >> rada.data.dzien;
+                cin >> data.dzien;
             }
-        }
-        return rada.data;
-        
+        }        
 
     }
 
-    void ostatnia_data(RadaNadzorcza rada)
+    void ostatnia_data()
     {
-        cout << "Data ostatniego zgromadzenia: " << rada.data.dzien << "." << rada.data.miesiac << "." << rada.data.rok << endl;
+        cout << "Data ostatniego zgromadzenia: " << data.dzien << "." << data.miesiac << "." << data.rok << endl;
     }
 
-    int liczba_kobiet1(RadaNadzorcza rada)
+    void liczba_kobiet1()
     {
         int lk;
         cout << "Podaj aktualna liczbe kobiet w zarzadzie: ";
         cin >> lk;
-        return lk;
+        liczba_kobiet = lk;
     }
 
-    void liczba_kobiet2(RadaNadzorcza rada)
+    void liczba_kobiet2()
     {
-        cout << "Aktualna liczba kobiet w zarzadzie: " << rada.liczba_kobiet << endl;
+        cout << "Aktualna liczba kobiet w zarzadzie: " << liczba_kobiet << endl;
     }
 
-    void liczba_mezczyzn(RadaNadzorcza rada)
+    void liczba_mezczyzn()
     {
-        cout << "Aktualna liczba mezczyzn w zarzadzie: " << rada.liczba_czlonkow - rada.liczba_kobiet << endl;
+        cout << "Aktualna liczba mezczyzn w zarzadzie: " << liczba_czlonkow - liczba_kobiet << endl;
     }
 
 };
@@ -154,13 +163,7 @@ class RadaNadzorcza
 int main()
 {
     RadaNadzorcza rada;
-    rada.liczba_czlonkow = 0;
-    rada.srednia_uchwal = 0;
-    rada.budzet = 0;
-    rada.data.dzien = 0;
-    rada.data.rok = 0;
-    rada.data.miesiac = 0;
-    rada.liczba_kobiet = 0;
+    rada.wyzeruj();
     int x;
     cout << "Menu:" << endl;
     cout << "1.Wprowadz liczbe czlonkow powolanych przez walne zgromadzenie." << endl;
@@ -184,43 +187,43 @@ int main()
         switch(x)
         {
             case 1:
-                rada.liczba_czlonkow = rada.liczba_powolanych(rada);
+                rada.liczba_powolanych();
                 break;
             case 2:
-                rada.liczba_czlonkow = rada.liczba_odwolanych(rada);
+                rada.liczba_odwolanych();
                 break;
             case 3:
-                rada.aktualna_liczba(rada);
+                rada.aktualna_liczba();
                 break;
             case 4:
-                rada.srednia_uchwal = rada.uchwaly_poprzedni_rok(rada);
+                rada.uchwaly_poprzedni_rok();
                 break;
             case 5:
-                rada.aktualna_srednia(rada);
+                rada.aktualna_srednia();
                 break;
             case 6:
-                rada.budzet = rada.wplywy(rada);
+                rada.wplywy();
                 break;
             case 7:
-                rada.budzet = rada.wydatki(rada);
+                rada.wydatki();
                 break;
             case 8:
-                rada.aktualny_budzet(rada);
+                rada.aktualny_budzet();
                 break;
             case 9:
-                rada.data = rada.data_planowana(rada);
+                rada.data_planowana();
                 break;
             case 10:
-                rada.ostatnia_data(rada);
+                rada.ostatnia_data();
                 break;
             case 11:
-                rada.liczba_kobiet = rada.liczba_kobiet1(rada);
+                rada.liczba_kobiet1();
                 break;
             case 12:
-                rada.liczba_kobiet2(rada);
+                rada.liczba_kobiet2();
                 break;
             case 13:
-                rada.liczba_mezczyzn(rada);
+                rada.liczba_mezczyzn();
                 break;
             case 14:
                 break;
